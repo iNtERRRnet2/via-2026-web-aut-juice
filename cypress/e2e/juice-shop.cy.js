@@ -1,6 +1,15 @@
 import { HomePage } from "../pageObjects/homePage";
 import { LoginPage } from "../pageObjects/loginPage";
 import { RegistrationPage } from "../pageObjects/registrationPage";
+import { SavedAddressPage } from "../pageObjects/savedAddressPage";
+import { CreateAddressPage } from "../pageObjects/createAddressPage";
+import { SavedPayementMethodsPage } from "../pageObjects/savedPayementMethodsPage";
+import { BasketPage } from "../pageObjects/basketPage";
+import { SelectAddressPage } from "../pageObjects/selectAddressPage";
+import { DeliveryMethodPage } from "../pageObjects/deliveryMethodPage";
+import { PaymentOptionsPage } from "../pageObjects/paymentOptionsPage";
+import { OrderSummaryPage } from "../pageObjects/orderSummaryPage";
+import { OrderCompletionPage } from "../pageObjects/orderCompletionPage";
 
 describe("Juice-shop scenarios", () => {
   context("Without auto login", () => {
@@ -150,57 +159,105 @@ describe("Juice-shop scenarios", () => {
     })
 
     // Create scenario - Validate product card amount
-    it.only("Validate product card amount", () => {
+    it("Validate product card amount", () => {
     // Validate that the default amount of cards is 12
+    HomePage.comboBoxDefault.should("contains.text", "12")
     // Change items per page (at the bottom of page) to 24
+    HomePage.comboBox.click();
+    HomePage.comboBoxSecondary.click();
     // Validate that the amount of cards is 24
+    HomePage.comboBoxDefault.should("contains.text", "24");
     // Change items per page (at the bottom of page) to 36
-    // Validate that the amount of cards is 35
+    HomePage.comboBox.click();
+    HomePage.comboBoxTrinary.click();
+    // Validate that the amount of cards is 36
+    HomePage.comboBoxDefault.should("contains.text", "36");
     })
 
     // Create scenario - Buy Girlie T-shirt
+    it.only("Buy Girlie T-shirt", () => {
     // Click on search icon
+    HomePage.searchButton.click();
     // Search for Girlie
+    HomePage.searchField.type("Girlie{enter}");
     // Add to basket "Girlie"
+    HomePage.addToCartButton.click();
     // Click on "Your Basket" button
+    HomePage.cartButton.click();
     // Create page object - BasketPage
     // Click on "Checkout" button
+    BasketPage.checkOutButton.click();
     // Create page object - SelectAddressPage
     // Select address containing "United Fakedom"
+    SelectAddressPage.savedAddress.find('[type="radio"]').click();
     // Click Continue button
+    SelectAddressPage.proceedButton.click();
     // Create page object - DeliveryMethodPage
     // Select delivery speed Standard Delivery
+    DeliveryMethodPage.standartDelivery.click();
     // Click Continue button
+    DeliveryMethodPage.proceedButton.click();
     // Create page object - PaymentOptionsPage
     // Select card that ends with "5678"
+    PaymentOptionsPage.selectPaymentOption.find('[type="radio"]').click();
     // Click Continue button
+    PaymentOptionsPage.proceedButton.click();
     // Create page object - OrderSummaryPage
     // Click on "Place your order and pay"
+    OrderSummaryPage.proceedButton.click();
     // Create page object - OrderCompletionPage
     // Validate confirmation - "Thank you for your purchase!"
+    OrderCompletionPage.confirmationText.should("contain.text", "Thank you for your purchase!")
+    })
 
     // Create scenario - Add address
+    it("Add address", () => {
     // Click on Account
+    HomePage.accountButton.click();
     // Click on Orders & Payment
+    HomePage.OaPButton.click();
     // Click on My saved addresses
+    HomePage.savedAddressesButton.click();
     // Create page object - SavedAddressesPage
     // Click on Add New Address
+    SavedAddressPage.createAddressButton.click();
     // Create page object - CreateAddressPage
     // Fill in the necessary information
+    CreateAddressPage.countryField.type("United Fakedom");
+    CreateAddressPage.nameField.type("John Mail");
+    CreateAddressPage.numberField.type("01928374");
+    CreateAddressPage.zipField.type("UF-3457");
+    CreateAddressPage.addressField.type("The nearest cave from Birdmingham");
+    CreateAddressPage.cityField.type("Birdmingham");
     // Click Submit button
+    CreateAddressPage.submitButton.click();
     // Validate that previously added address is visible
+    SavedAddressPage.savedAddress.should("contain.text", "United Fakedom");
+    })
 
     // Create scenario - Add payment option
+    it("Add payment option", () => {
     // Click on Account
+    HomePage.accountButton.click();
     // Click on Orders & Payment
+    HomePage.OaPButton.click();
     // Click on My payment options
+    HomePage.savedPayementOptionsButton.click();
     // Create page object - SavedPaymentMethodsPage
     // Click Add new card
+    SavedPayementMethodsPage.addNewCardManu.click();
     // Fill in Name
+    SavedPayementMethodsPage.nameField.type("John Mail");
     // Fill in Card Number
+    SavedPayementMethodsPage.cardNumberField.type("01897329841285678");
     // Set expiry month to 7
+    SavedPayementMethodsPage.monthField.select("7");
     // Set expiry year to 2090
+    SavedPayementMethodsPage.yearField.select("2090");
     // Click Submit button
+    SavedPayementMethodsPage.submitButton.click();
     // Validate that the card shows up in the list
+    SavedPayementMethodsPage.cardNumber.should("contain.text", "5678")
+    })
   });
 });

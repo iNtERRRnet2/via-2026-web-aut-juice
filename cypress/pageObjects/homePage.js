@@ -72,4 +72,49 @@ export class HomePage extends BasePage {
   {
     return cy.get('#submitButton')
   }
+
+  static get comboBox()
+  {
+    return cy.get('[class="mat-mdc-paginator-touch-target"]')
+  }
+
+  static get comboBoxDefault()
+  {
+    return cy.get('#mat-select-0')
+  }
+
+  static get comboBoxSecondary()
+  {
+    return cy.get('#mat-option-1')
+  }
+
+  static get comboBoxTrinary()
+  {
+    return cy.get('#mat-option-2')
+  }
+
+  static get addToCartButton()
+  {
+    return cy.get('[aria-label="Add to Basket"]')
+  }
+
+  static get cartButton()
+  {
+    return cy.get('[aria-label="Show the shopping cart"]')
+  }
+
+  static get OaPButton()
+  {
+    return cy.get('[aria-label="Show Orders and Payment Menu"]').eq(1)
+  }
+
+  static get savedAddressesButton()
+  {
+    return cy.get('[aria-label="Go to saved address page"]')
+  }
+
+  static get savedPayementOptionsButton()
+  {
+    return cy.get('[aria-label="Go to saved payment methods page"]')
+  }
 }
